@@ -7,13 +7,16 @@ package stash
 import (
 	"encoding/json"
 	"errors"
+	`fmt`
 	"io"
 	"io/ioutil"
 	"net/http"
+	`strings`
 	"time"
 
 	"github.com/jenkins-x/go-scm/pkg/hmac"
 	"github.com/jenkins-x/go-scm/scm"
+	`github.com/jenkins-x/go-scm/scm/driver/stash/testdata/webhooks`
 )
 
 // TODO(bradrydzewski) push hook does not include commit message
@@ -173,10 +176,48 @@ type change struct {
 }
 
 //
+// can we circle back to BS, and ask for Open PRs
+// if we match this commit to an Open PR, trigger the PR build
+//
+
+func checkIfCommitOnOpenPR(src *pushHook) {
+	repoName := src.Repository.Name // why bitbucket, why? // jx-go
+	projectKey := src.Repository.Project.Key // JX
+	projectUrl := ""
+	if len(src.Repository.Project.Links.Self) <= 0 {
+		return
+	}
+	projectUrl = src.Repository.Project.Links.Self[0].Href // http://bitbucket.openshift.kearos.net/projects/JX
+	projectUrl = strings.Replace(projectUrl, "projects/" + projectKey, "rest/api/1.0/projects/"+projectKey+"/repos/" + repoName + "/pull-requests/?state=OPEN", 1)
+	// url for retrieve OPEN PR's for project/repo -> http://bitbucket.openshift.kearos.net/rest/api/1.0/projects/JX/repos/jx-go/pull-requests/?state=OPEN
+	response, err := http.Get(projectUrl)
+	if err != nil {
+		fmt.Printf("The HTTP request failed with error %s\n", err)
+	} else {
+		data, _ := ioutil.ReadAll(response.Body)
+		fmt.Println(string(data))
+	}
+	jsonData := webhooks.OpenPullRequests{}
+	jsonValue, _ := json.Marshal(jsonData)
+	fmt.Printf("Found %v Open PRs: %v\n", jsonData.Size ,jsonValue)
+	openPrMatchedCommitRef := false
+	for _,openPr := range jsonData.Values {
+		if openPr.FromRef.ID == src.Changes[0].RefID {
+			openPrMatchedCommitRef = true
+			fmt.Printf("The commit is related to an OpenPR -> pr-%v - iteration %v\n", openPr.ID, openPr.Version)
+		}
+	}
+	if !openPrMatchedCommitRef {
+		fmt.Print("Commit did not match any open PR")
+	}
+}
+
+//
 // push hooks
 //
 
 func convertPushHook(src *pushHook) *scm.PushHook {
+	checkIfCommitOnOpenPR(src)
 	change := src.Changes[0]
 	repo := convertRepository(src.Repository)
 	sender := convertUser(src.Actor)
