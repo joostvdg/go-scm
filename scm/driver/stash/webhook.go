@@ -7,7 +7,6 @@ package stash
 import (
 	"encoding/json"
 	"errors"
-	`fmt`
 	"io"
 	"io/ioutil"
 	"net/http"
