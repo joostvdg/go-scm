@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jenkins-x/go-scm/scm"
+	"github.com/joostvdg/go-scm/scm"
 )
 
 type contentService struct {

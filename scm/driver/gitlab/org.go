@@ -8,8 +8,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jenkins-x/go-scm/scm"
-	"github.com/jenkins-x/go-scm/scm/driver/internal/null"
+	"github.com/joostvdg/go-scm/scm"
+	"github.com/joostvdg/go-scm/scm/driver/internal/null"
 )
 
 type organizationService struct {

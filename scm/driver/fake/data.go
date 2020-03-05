@@ -1,6 +1,6 @@
 package fake
 
-import "github.com/jenkins-x/go-scm/scm"
+import "github.com/joostvdg/go-scm/scm"
 
 type Data struct {
 	Issues                     map[int][]*scm.Issue

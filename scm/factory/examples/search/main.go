@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/jenkins-x/go-scm/scm"
-	"github.com/jenkins-x/go-scm/scm/factory"
-	"github.com/jenkins-x/go-scm/scm/factory/examples/helpers"
+	"github.com/joostvdg/go-scm/scm"
+	"github.com/joostvdg/go-scm/scm/factory"
+	"github.com/joostvdg/go-scm/scm/factory/examples/helpers"
 )
 
 func main() {

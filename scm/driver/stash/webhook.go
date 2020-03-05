@@ -14,9 +14,9 @@ import (
 	`strings`
 	"time"
 
-	"github.com/jenkins-x/go-scm/pkg/hmac"
-	"github.com/jenkins-x/go-scm/scm"
-	`github.com/jenkins-x/go-scm/scm/driver/stash/testdata/webhooks`
+	"github.com/joostvdg/go-scm/pkg/hmac"
+	"github.com/joostvdg/go-scm/scm"
+	`github.com/joostvdg/go-scm/scm/driver/stash/testdata/webhooks`
 )
 
 // TODO(bradrydzewski) push hook does not include commit message

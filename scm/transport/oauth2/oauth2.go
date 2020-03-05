@@ -7,8 +7,8 @@ package oauth2
 import (
 	"net/http"
 
-	"github.com/jenkins-x/go-scm/scm"
-	"github.com/jenkins-x/go-scm/scm/transport/internal"
+	"github.com/joostvdg/go-scm/scm"
+	"github.com/joostvdg/go-scm/scm/transport/internal"
 )
 
 // Supported authentication schemes. Note that Gogs and

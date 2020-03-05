@@ -13,7 +13,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/jenkins-x/go-scm/scm"
+	"github.com/joostvdg/go-scm/scm"
 )
 
 // New returns a new Bitbucket API client.
